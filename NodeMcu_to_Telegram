@@ -1,0 +1,50 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+//#include <FS.h>
+//#include <ArduinoJson.h> 
+// Initialize Wifi connection to the router
+char ssid[] = "UMS Wifi";     // your network SSID (name)
+char password[] = "ums.wifi"; // your network key
+
+// Initialize Telegram BOT
+#define BOTtoken "709016179:AAGrJJllgzw_PCFV3btTQmIc8uBpQEoUGSg"  // your Bot Token (Get from Botfather)
+String chatid = "607520351";
+/* char ssid[] = "xxx"; 
+char password[] = "xxx";
+#define BOTtoken ""
+String chatid = "607520351";
+*/ 
+WiFiClientSecure client;
+UniversalTelegramBot bot(BOTtoken, client);
+ 
+void setup() {
+  Serial.begin(9600);
+  WifiStatus();
+ 
+  bot.sendMessage(chatid, "Tes Kelas Robot");
+  Serial.println("Pesan Terkirim ke Telegram");
+}
+ 
+void loop() {
+ 
+}
+ 
+void WifiStatus() {
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+  Serial.print("Connecting Wifi: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+ 
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
